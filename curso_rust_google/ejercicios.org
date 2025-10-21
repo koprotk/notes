@@ -1,0 +1,1362 @@
+#+AUTHOR: Daniel Muñoz
+#+TITLE: Rust Course
+#+STARTUP: latexpreview
+#+SOURCE: [[https://google.github.io/comprehensive-rust/][Google Rust Course]]
+
+* Requerimientos
+
+** Primero que todo instalar Rust, para ello es necesario borrar las instalaciones que existan en el sistema:
+1. Borrar las instalaciones del sistema, en mi caso: ~dnf remove rust cargo~
+2. Instalar el instalador oficial de rust ~dnf install rustup~
+3. Ejecutar el instalador oficial ~rustup-init~
+4. Seguir las instrucciones del instalador.
+5. Reiniciar las ~locale~ y variables de entorno para que la ~shell~ detecte el comando ~rust~
+
+** Primer ejercicio
+
+#+begin_src rust
+fn main() {
+    println!("Edítame")
+}
+#+end_src
+
+#+RESULTS:
+: Edítame
+
+** Para crear tu binario
+1. Ejecutar ~cargo new exercise~
+2. Después ingresar a "exercise" con ~cd exercise~
+3. Ejecutar ~cargo run~
+4. Puedes cambiar el archivo de la plantilla ~src/main.rs~ ingresando el código que se desee.
+5. Se puede comprobar errores en el proyecto con ~cargo check~
+6. Se puede compilar sin ejecutar con ~cargo build~
+7. Se puede usar ~cargo build --release~ para generar una compilación de lanzamiento optimizada.
+8. Se puede editar ~cargo.toml~ para añadir dependencias al proyecto, las cuales, se descargarán al momento de ejecutar cargo.
+
+* Día 1: mañana
+** ¿Qué es RUST?
+*** Lenguaje estático como C++ y posee las mismas bondades.
+*** Multiplataforma, multidispositivo.
+** Hola, mundo
+#+begin_src rust
+fn main() {
+    println!("Hola, 🌍")
+}
+#+end_src
+
+#+RESULTS:
+: Hola, 🌍
+**** Las funciones se introducen con ~fn~
+**** Los bloques se delimitan con llaves ~{}~
+**** La función ~main~ es el punto de entrada del programa
+**** Rust tiene /macros higiénicas/ (hygienic macros) como ~println!~
+***** Higiénico hace referencia a que no capturan accidentalmente identificadores del ámbito en que se utilizan. (necesito indagar más)
+**** Las cadenas de texto en Rust están codificadas en UTF-8 y pueden contener caracteres unicode.
+
+*** Ventajas de Rust
+**** No hay errores de memoria.
+**** No hay comportamientos indefinidos.
+**** Características de los lenguajes modernos.
+***** Por ejemplo: seguridad como Python, Javascript, etc. Pero rendimientos similares a C o C++.
+** Tipos y Valores
+*** Variables
+**** Rust provee tipado seguro mediante tipado estático. Las variables son asignadas mediante ~let~
+**** Ejemplo:
+#+begin_src rust
+fn main() {
+    let mut x: i32 = 10;
+    println!("x: {x}");
+    x = 20;
+    println!("x: {x}");
+}
+#+end_src
+
+#+RESULTS:
+: x: 10
+: x: 20
+
+***** Ahora intentar el ejemplo anterior eliminado el primer comentario, esto demuestra que las variables son inmutables.
+***** Si agregamos ~mut~ la variable pasa de inmutable a mutable, lo cual permite redefinirla posteriormente.
+***** ~i32~ es el tipo de variable.
+*** Valores
+****
+|                                 | Tipos                          | Literales            |
+|---------------------------------+--------------------------------+----------------------|
+| Enteros con signo (Signed)      | ~i8~, ~i16~, ~i32~, ~i64~, ~i128~, ~isize~ | ~-10~, ~0~, ~1000~, ~123i64~ |
+| Enteros sin signo (Unsigned)    | ~u8~, ~u16~, ~u32~, ~u64~, ~u128~, ~usize~ | ~0~, ~123~, ~10u16~        |
+| Número de coma flotante (Float) | ~f32~, ~f64~                       | ~3.14~, ~-10.0e20~, ~2f32~ |
+| Valores escalares unicode       | ~char~                           | ~'a'~, '\alpha', '\infty'        |
+| Booleanos                       | ~bool~                           | ~true~,  ~false~         |
+**** Los tipos tienen el siguiente tamaño:
+***** ~iN~, ~uN~, y ~fN~ son /N/ bits de capacidad.
+***** ~isize~, ~usize~ tienen el ancho de un puntero.
+***** ~char~ tiene un tamaño de 32bits.
+***** ~bool~ tiene 8 bits de ancho.
+*** Aritmética
+****
+#+begin_src rust
+fn interproduct(a: i32, b: i32, c: i32) -> i32 {
+    return a * b + b * c + c * a;
+}
+
+fn interproduct_sat(a: i16, b: i16, c: i16) -> i16 {
+    return (a * b).saturating_add(b * c).saturating_add(c * a);
+}
+
+fn main() {
+    println!("resultado: {}", interproduct(120,100,248));
+    println!("resultado: {}", interproduct_sat(120,100,248));
+}
+#+end_src
+
+#+RESULTS:
+: resultado: 66560
+: resultado: 32767
+
+***** En el ejercicio anterior, se puede reemplazar todos los ~i32~ a ~i16~ cuyo valor máximo es 32767 dado ello, aparecerá un error de desbordamiento de entero.
+***** Para impedir que la operación quede fuera del rango aceptado se puede usar la función ~saturating_add~ que reemplaza a ~+~ asegurándose que la suma quede dentro del rango aceptado.
+*** Cadenas de texto (Strings)
+**** Existen dos tipos de cadenas de texto:
+***** ~String~ : modificable y owned string.
+***** ~&str~ : Es una cadena de solo lectura.
+****
+#+begin_src rust
+fn main() {
+    let greeting: &str = "Saludos";
+    let bell: &str = "🔔";
+    let mut sentence = String::new();
+    sentence.push_str(greeting);
+    sentence.push_str(", ");
+    sentence.push_str(bell);
+    println!("frase final: {}", sentence);
+    println!("{:?}", &sentence[0..7]);
+}
+#+end_src
+
+#+RESULTS:
+: frase final: Saludos, 🔔
+: "Saludos"
+
+**** Los números que hay dentro de [0..5] son los valores del string que se colocarán, (me imagino que es desde la posición 0 hasta 5-1 = 4), por eso saldrá Salud
+**** Se pueden crear comillas con:
+***** ~r#"~ comil""las ~"#~
+***** ~\"~
+*** Inferencias de tipo
+**** Rust consultará cómo se /usa/ la variable para determinar el tipo
+****
+#+begin_src rust
+fn takes_u32(x: u32) {
+    println!("u32: {x}")
+}
+
+fn takes_i8(y: i8) {
+    println!("i8: {y}")
+}
+
+fn main() {
+    let x = 10;
+    let y = 20;
+
+    takes_u32(x);
+    takes_i8(y);
+   // takes_u32(y);
+}
+#+end_src
+
+#+RESULTS:
+: u32: 10
+: i8: 20
+
+*** Ejercicio Fibonacci
+**** Escribe una función ~fib(n)~ que calcule el número n de Fibonacci. ¿Cuándo da error pánico esta función?
+****
+#+begin_src rust
+fn fib(n: u32) -> u32 {
+    if n <= 2 {
+        //El caso base.
+        return 1;
+
+    } else {
+        //El caso recursivo
+        let mut i = 3;
+        let mut fa = 1;
+        let mut fb = 1;
+        let mut fc = 0;
+
+        while i <= n {
+            fc = fa + fb;
+            fa = fb;
+            fb = fc;
+            i = i + 1;
+        }
+        return fc;
+    }
+}
+
+fn main() {
+    let n = 20;
+    println!("fib({}) = {}", n,fib(n))
+}
+#+end_src
+
+#+RESULTS:
+: fib(20) = 6765
+**** El límite tendrá relación con el límite del tipo de datos ~u32~ que es 4294967295
+** Control y Flujo
+*** Condicionales
+**** Los bloques están delimitados por {}
+**** Los comentarios de línea por // y bloque ~/* **/~*
+**** Palabras claves como ~if~ y ~while~ funcionan igual.
+**** La asignación de variables se realiza con ~=~ y la comparación con ~==~.
+*** Expresiones ~if~
+**** Ejemplo
+****
+#+begin_src rust
+fn main() {
+    let x = 10;
+    if x < 20 {
+        println!("pequeño");
+    } else if x < 100 {
+        println!("muy grande");
+    } else {
+        println!("enorme");
+    }
+}
+#+end_src
+
+#+RESULTS:
+: pequeño
+
+**** Se puede utilizar ~if~ como expresión.
+****
+#+begin_src rust
+fn main() {
+    let x = 10;
+    let size = if x < 20 { "pequeño" } else {"grande"};
+    println!("tamaño del número: {}", size);
+}
+#+end_src
+
+#+RESULTS:
+: tamaño del número: pequeño
+
+*** Bucles for
+**** Hay tres palabras claves de bucle en Rust: ~while~ , ~loop~, y ~for~:
+**** ~while~
+***** El bucle while trabaja como los otros lenguajes, ejecutando el cuerpo del bucle mientras la condición sea verdadera:
+*****
+#+begin_src rust
+fn main() {
+    let mut x = 200;
+    while x >= 10 {
+        x = x / 2;
+    }
+    println!("x final: {x}");
+}
+#+end_src
+
+#+RESULTS:
+: x final: 6
+
+**** ~for~
+***** El bucle ~for~ itera sobre un rango de valores:
+*****
+#+begin_src rust
+fn main() {
+    for x in 1..5 {
+        println!("x: {x}");
+    }
+}
+#+end_src
+
+#+RESULTS:
+: x: 1
+: x: 2
+: x: 3
+: x: 4
+**** ~loop~
+***** El bucle ~loop~ itera eternamente hasta un ~break~.
+#+begin_src rust
+fn main() {
+let mut i = 0;
+    loop {
+        i += 1;
+        println!("{i}");
+        if i > 100 {
+            break;
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+#+end_example
+
+*** ~break~ y ~continue~
+**** Si deseas salir de cualquier bucle puede usar ~break~.
+****
+#+begin_src rust
+fn main() {
+    let (mut a, mut b) = (100, 52);
+    let result = loop {
+        if a == b {
+            break a;
+        }
+        if a < b {
+            b -= a;
+        } else {
+            a -= b;
+        }
+    };
+    println!("{result}");
+}
+#+end_src
+
+#+RESULTS:
+: 4
+
+**** Tanto ~continue~ como ~break~ pueden utilizar un argumento de etiqueta para interrumpir bucles anidados:
+****
+#+begin_src rust
+fn main() {
+    'outer: for x in 1..5 {
+        println!("x: {x}");
+        let mut i = 0;
+        while i < x {
+            println!("x: {x}, i: {i}");
+            i += 1;
+            if i == 3 {
+                break 'outer;
+            }
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+: x: 1
+: x: 1, i: 0
+: x: 2
+: x: 2, i: 0
+: x: 2, i: 1
+: x: 3
+: x: 3, i: 0
+: x: 3, i: 1
+: x: 3, i: 2
+****  ~loop~ es la única que devuelve un valor antes del primer bucle.
+
+*** Bloques y ámbitos
+**** Un bloque es una expresión encerrada en ~{}~. Cada bloque tiene un valor y tipo.
+****
+#+begin_src rust
+fn main() {
+    let z = 13;
+    let x = {
+        let y = 10;
+        println!("y: {y}");
+        z - y
+    };
+    println!("x: {x}");
+}
+#+end_src
+
+#+RESULTS:
+: y: 10
+: x: 3
+*** Ámbitos y /Shadowing/
+**** El ámbito de una variable se limita al bloque que la contiene.
+**** Puedes /shadowing/ variables, tanto las de ámbitos externos como las del propio ámbito:
+****
+#+begin_src rust
+fn main() {
+    let a = 10;
+    println!("antes: {a}");
+    {
+        let a = "hola";
+        println!("ámbito interno: {a}");
+
+        let a = true;
+        println!("shadowing en el ámbito interno: {a}");
+    }
+
+        println!("después: {a}");
+}
+#+end_src
+
+#+RESULTS:
+: antes: 10
+: ámbito interno: hola
+: shadowing en el ámbito interno: true
+: después: 10
+**** En el /shadowing/ todas las variables ~a~ existen, pero son diferentes unas de otras.
+
+*** Funciones
+****
+#+begin_src rust
+fn gcd(a: u32, b: u32) -> u32 {
+    if b > 0 {
+        gcd(b,a % b)
+
+        } else {
+        a
+    }
+}
+
+fn main() {
+    println!("gcd: {}", gcd(143, 52));
+}
+#+end_src
+
+#+RESULTS:
+: gcd: 13
+**** Los parámetros de declaración van seguidos de un tipo y a continuación de un tipo de resultado devuelto.
+**** La última expresión en el cuerpo de una función se vuelve el ~return~ para ello, simplemente omitir el ~;~ al final.
+**** El ~return~ puede usarse para un retorno anticipado, pero el valor /as is/ es idiomático (propio de Rust).
+**** Algunas funciones no devuelven nada, el compilador lo sabrá si se omite el ~->~
+**** Siempre se admitirá un numero *fijo de parámetros y no se admiten parámetros predeterminados* 😖.
+*** Macros
+**** Rust considera un grupo de bibliotecas útiles, llamadas /macros/ que pueden ser usadas, se identifican porque poseen ~!~ al final. Algunas de ellas son:
+***** ~println!(format, ..)~ imprime una línea a una salida estándar, aplicando el formato descrito en ~std:fmt~.
+***** ~format!(format, ..)~ funciona igual que ~println!~ pero retorna el resultado en formato plano.
+***** ~dbg!(expression)~ registra el valor de la expresión y lo devuelve.
+***** ~todo!()~ marca un fragmento de código como no se ha implementado todavía. Sí se ejecuta, activará un error de pánico.
+***** ~unreacheable!()~ marca un fragmento de código como inaccesible. Si se ejecuta, activará un /panic error/.
+****
+#+begin_src rust
+fn factorial(n: u32) -> u32 {
+    let mut product = 1;
+    for i in 1..=n {
+        product *= dbg!(i);
+    }
+    product
+}
+
+fn fizzbuzz(n: u32) -> u32 {
+    todo!()
+}
+
+fn main() {
+    let n = 4;
+    println!("{n}! = {}", factorial(n));
+}
+#+end_src
+
+#+RESULTS:
+: [src/main.rs:5:20] i = 1
+: [src/main.rs:5:20] i = 2
+: [src/main.rs:5:20] i = 3
+: [src/main.rs:5:20] i = 4
+: 4! = 24
+**** En este curso no se define lo qué es una macro ni porque en Rust estos métodos son macros, solamente se muestran como herramientas a usar.
+
+*** Ejercicio: Secuencia de Collatz
+**** La secuencia de Collatz corresponde a una transformación que se ejecuta a un número sucesivamente hasta obtener el valor 1, si no se aplicará:
+
+\begin{equation}
+f(n) =
+\left\{
+        \begin{array}{lr}
+        \frac{n}{2}, & \text{si } n \text{ es par}\\
+        3n+1, & \text{si } n \text{ es impar}
+        \end{array}
+\end{equation}
+
+
+**** Ejemplo, si $n = 13$ :
+***** $f(13) = 3 \times 13 + 1 = 40$
+***** $f(f(13)) = \frac{40}{2} = 20$
+***** $f(f(f(13))) = \frac{20}{2} = 10$
+***** Y así...
+***** Como ejemplo se tendrá, para $n = 13$
+***** f(13) -> 40, 20, 10, 5, 16, 8, 4, 2, 1.
+
+**** Escribir una función para calcular la longitud de la secuencia de Collatz para un número ~n~ inicial dado.
+****
+#+begin_src rust
+/// Determinar la longitud de la secuencia de Collatz que empieza por `n`.
+fn collatz_lenght(mut n: i32) -> u32 {
+    let mut i = 0;
+    while n > 1 {
+        if n % 2 == 0 {
+            n = n/2;
+        } else {
+            n = 3*n + 1;
+        }
+        i += 1;
+    }
+    return i
+}
+fn main() {
+    let n = 11;
+    println!("La longitud de la serie de Collatz para n = {} es {} pasos", n, collatz_lenght(n))
+}
+#+end_src
+
+#+RESULTS:
+: La longitud de la serie de Collatz para n = 11 es 14 pasos
+
+* Día 1: Tarde
+** Tuplas y arrays
+*** Tuplas y arrays
+***
+|        | Tipos                   | Literales                  |
+|--------+-------------------------+----------------------------|
+| Arrays | [T; N]                  | [20, 30, 40], [0; 3]       |
+| Tuplas | (), (T,), (T1, T2), ... | (), ('x',), ('x', 1.2),... |
+
+*** Asignación y acceso a arrays
+***
+#+begin_src rust
+fn main() {
+    let mut a: [i8; 10] = [42; 10];
+    a[5] = 0;
+    println!("a: {a:#?}");
+}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+a: [
+    42,
+    42,
+    42,
+    42,
+    42,
+    0,
+    42,
+    42,
+    42,
+    42,
+]
+#+end_example
+
+**** El valor de un array tipo ~[T; N]~ contiene ~N~ elementos del mismo tipo ~T~.
+**** Considerar que el array es parte del tipo por tanto un array ~[u8; 3]~ $\noteq$ \neq ~[u8; 4]~
+**** Se pueden usar /literales/ para asignar valores a arrays.
+**** La macro ~println!~ accede a la implementación de debug con formato de parámetro ~?~ , dando como salida ~{:?}~
+**** Si se añade un ~#~ al formato ejemplo: ~{a:#?}~ imprime el contenido del array en vertical para facilitar su lectura.
+*** Asignación y acceso a tuplas:
+***
+#+begin_src rust
+fn main() {
+    let t: (i8, bool) = (7, true);
+    println!("t.0: {}", t.0);
+    println!("t.1: {}", t.1);
+}
+#+end_src
+
+#+RESULTS:
+: t.0: 7
+: t.1: true
+**** Al igual que los arrays las tuplas poseen una longitud fija.
+**** Para acceder al contenido de una tupla es mediante el nombre de la tupla /t/ y su índice, ejemplo: ~t.0~, ~t.1~.
+**** Una tupla vacía ~()~ es conocida como /tipo unitario/, se usa generalmente para indicar funciones que no retornan nada.
+***** Es como un tipo de ~void~
+** Iteración de Arreglos (arrays)
+*** La instrucción ~for~ permite iterar sobre arrays, pero no sobre tuplas.
+#+begin_src rust
+fn main() {
+    let primes = [2, 3, 5, 7, 11, 13, 17, 19];
+    for prime in primes {
+        for i in 2..prime {
+            println!("i= {}", i);
+            assert_ne!(prime % i, 0);
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+i= 2
+i= 2
+i= 3
+i= 4
+i= 2
+i= 3
+i= 4
+i= 5
+i= 6
+i= 2
+i= 3
+i= 4
+i= 5
+i= 6
+i= 7
+i= 8
+i= 9
+i= 10
+i= 2
+i= 3
+i= 4
+i= 5
+i= 6
+i= 7
+i= 8
+i= 9
+i= 10
+i= 11
+i= 12
+i= 2
+i= 3
+i= 4
+i= 5
+i= 6
+i= 7
+i= 8
+i= 9
+i= 10
+i= 11
+i= 12
+i= 13
+i= 14
+i= 15
+i= 16
+i= 2
+i= 3
+i= 4
+i= 5
+i= 6
+i= 7
+i= 8
+i= 9
+i= 10
+i= 11
+i= 12
+i= 13
+i= 14
+i= 15
+i= 16
+i= 17
+i= 18
+#+end_example
+
+***  Lo que hace el código anterior es iterar sobre ~primes~ y cada elemento comprobar en en un array que va desde 2, hasta el iterador y comprobar si el módulo del iterador ~primer~ / i \neq 0 (~assert_ne!~), otros assertions:
+**** ~assert_eq!~
+**** ~assert!~
+**** ~debug_assert!~
+
+** Correspondencia de Patrones
+*** El comando ~match~ permite ver si dos valores coinciden
+#+begin_src rust
+#[rustfmt::skip]
+fn main() {
+    let input = 'x';
+    match input {
+        'q'                       => println!("Salir"),
+        'a' | 's' | 'w' | 'd'     => println!("Desplazarse"),
+        '0'..='9'                 => println!("Introducción de números"),
+        key if key.is_lowercase() => println!("Minúscula: {key}"),
+        _                         => println!("Otro"),
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Minúscula: x
+
+*** ~_~ es un patrón comodín que si no coincide con ningún otro será este.
+*** Las opciones deben contemplar todos los casos, es por ello que se usa ~_~
+*** ~match~ se puede usar como una sentencia ~if~
+*** una variable patrón ~key~ creará un enlace que se puede usar dentro del brazo de coincidencia.
+*** Otros elementos
+**** ~|~ = ~or~
+**** ~..~ se puede ampliar tanto como sea necesario.
+**** ~1..=5~ representa un rango inclusivo.
+**** ~_~ es un comodín
+**** ~#[rustfmt::skip]~ se usa para indicarle a /rustfmt/ que no formatee el código.
+
+** Desestructuración
+*** Estrategia que permite desarrollar funciones para analizar una estructura de datos:
+*** Tuplas
+#+begin_src rust
+fn main() {
+    describe_point((-1, 0));
+}
+
+fn describe_point(point: (i32, i32)) {
+    match point {
+        (0, _) => println!("en el eje Y"),
+        (_, 0) => println!("en el eje X"),
+        (x, _) if x < 0 => println!("a la izquierda del eje Y"),
+        (_, y) if y < 0 => println!("debajo del eje X"),
+        _ => println!("primer cuadrante"),
+    }
+}
+#+end_src
+
+#+RESULTS:
+: en el eje X
+
+*** Arrays
+***
+#+begin_src rust
+#[rustfmt::skip]
+fn main() {
+    let triple = [0, -2, 3];
+    println!("Dame información sobre {triple:?}");
+    match triple {
+        [0, y, z] => println!("El primero es 0, y = {y}, z = {z}"),
+        [1, ..]   => println!("El primero es 1 y el resto se ha ignorado"),
+        _         => println!("Se han ignorado todos los elementos"),
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Dame información sobre [0, -2, 3]
+: El primero es 0, y = -2, z = 3
+
+*** Ejercicio: arrays anidados
+**** Los arrays pueden contener otros arrays: ~let array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];~
+**** Usar un array como el anterior para construir una función que permita /transponer/ una matriz (cambiar filas en columnas):
+\begin{equation}
+        T \left(
+        \begin{bmatrix}
+                1 & 2 & 3 \\
+                4 & 5 & 6 \\
+                7 & 8 & 9
+        \end{bmatrix} \right)
+        =
+        \begin{bmatrix}
+                1 & 4 & 7 \\
+                2 & 5 & 8 \\
+                3 & 6 & 9
+        \end{bmatrix}
+\end{equation}
+**** El ejercicio debe funcionar para matrices 3x3.
+***
+#+begin_src rust
+// TODO: remove this when you're done with your implementation.
+#![allow(unused_variables, dead_code)]
+
+fn transpose(matrix: [[i32; 3]; 3]) -> [[i32; 3]; 3] {
+    let mut array: [[i32; 3]; 3] = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+    let mut a: [i32; 3] = [0, 0, 0];
+    let mut a1 = 0;
+    let mut b: [i32; 3] = [0, 0, 0];
+    let mut b1 = 0;
+    let mut c: [i32; 3] = [0, 0, 0];
+    let mut c1 = 0;
+    let mut n;
+
+    for i in matrix {
+        n = 0;
+        for j in i {
+            if n == 0 {
+                a[a1] = j;
+                a1 += 1;
+                n += 1;
+            } else if n == 1 {
+                b[b1] = j;
+                b1 += 1;
+                n += 1;
+            } else {
+                c[c1] = j;
+                c1 += 1;
+                n += 1;
+            }
+        }
+    }
+    array[0] = a;
+    array[1] = b;
+    array[2] = c;
+    return array
+}
+
+fn main() {
+    let matrix = [
+        [101, 102, 103],
+        [201, 202, 203],
+        [301, 302, 303],
+    ];
+
+    println!("matriz: {:#?}", matrix);
+    let transposed = transpose(matrix);
+    println!("traspuesto: {:#?}", transposed);
+}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+matriz: [
+    [
+        101,
+        102,
+        103,
+    ],
+    [
+        201,
+        202,
+        203,
+    ],
+    [
+        301,
+        302,
+        303,
+    ],
+]
+traspuesto: [
+    [
+        101,
+        201,
+        301,
+    ],
+    [
+        102,
+        202,
+        302,
+    ],
+    [
+        103,
+        203,
+        303,
+    ],
+]
+#+end_example
+
+**** Respuesta desde el curso:
+****
+#+begin_src rust
+fn transpose(matrix: [[i32; 3]; 3]) -> [[i32; 3]; 3] {
+    let mut result = [[0; 3]; 3];
+    for i in 0..3 {
+        for j in 0..3 {
+            result[j][i] = matrix[i][j];
+        }
+    }
+    result
+}
+
+#[test]
+fn test_transpose() {
+    let matrix = [
+        [101, 102, 103], //
+        [201, 202, 203],
+        [301, 302, 303],
+    ];
+    let transposed = transpose(matrix);
+    assert_eq!(
+        transposed,
+        [
+            [101, 201, 301], //
+            [102, 202, 302],
+            [103, 203, 303],
+        ]
+    );
+}
+
+fn main() {
+    let matrix = [
+        [101, 102, 103], // <-- el comentario hace que rustfmt añada una nueva línea
+        [201, 202, 203],
+        [301, 302, 303],
+    ];
+
+    println!("matriz: {:#?}", matrix);
+    let transposed = transpose(matrix);
+    println!("traspuesto: {:#?}", transposed);
+}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+matriz: [
+    [
+        101,
+        102,
+        103,
+    ],
+    [
+        201,
+        202,
+        203,
+    ],
+    [
+        301,
+        302,
+        303,
+    ],
+]
+traspuesto: [
+    [
+        101,
+        201,
+        301,
+    ],
+    [
+        102,
+        202,
+        302,
+    ],
+    [
+        103,
+        203,
+        303,
+    ],
+]
+#+end_example
+**** En el ejercicio resuelto se observa ~result[j][i] = matrix[i][j]~ podemos inferir que el primer paréntesis cuadrado hace referencia al ~i~ elemento de la matriz (los array) y el segundo paréntesis al ~j~ elemento del array, ejemplo:
+
+** Referencias
+*** Enums compartidas
+**** Una referencia ofrece una forma de acceder a otro valor sin asumir la responsabilidad del valor. También se denomina "préstamo". Las referencias compartidas son de solo lectura y los datos a los que se hace referencia no pueden cambiar.
+****
+#+begin_src rust
+fn main() {
+    let a = 'A';
+    let b = 'B';
+    let mut r: &char = &a;
+    println!("r: {}", *r);
+    r = &b;
+    println!("r: {}", *r);
+}
+#+end_src
+
+#+RESULTS:
+: r: A
+: r: B
+
+**** Una referencia compartida a un tipo ~T~ tiene el tipo ~&T~. Se crea un valor de referencia con el operador ~&~. El operador ~*~ "desreferecia" una referencia, dando lugar a su nuevo valor.
+**** Rust prohibirá estáticamente las referencias colgantes:
+****
+#+begin_src rust
+fn x_axis(x: i32) -> &(i32, i32) {
+    let point = (x, 0);
+    return &point;
+}
+#+end_src
+
+#+RESULTS:
+: error: Could not compile `cargobAGfkY`.
+*** Referencias exclusivas
+**** Son aquellas referencias mutables, poseen el tipo ~&mut T~.
+****
+#+begin_src rust
+fn main() {
+    let mut point = (1, 2);
+    let x_coord = &mut point.0;
+    *x_coord = 20;
+    println!("point: {point:?}");
+}
+#+end_src
+
+#+RESULTS:
+: point: (20, 2)
+
+*** Ejercicio
+****
+#+begin_src rust
+// Calcula la magnitud de un vector sumando los cuadrados de sus coordenadas
+// y sacando la raíz cuadrada. Usa el método `sqrt()` para calcular la raíz cuadrada
+//, como `v.sqrt()`.
+
+
+fn magnitude(vector: &[f64; 3] ) ->  f64 {
+    let a = vector[0]*vector[0];
+    let b = vector[1]*vector[1];
+    let c = vector[2]*vector[2];
+    let d = a+b+c;
+
+    return d.sqrt();
+}
+
+// Normaliza un vector calculando su magnitud y dividiendo todas
+// sus coordenadas entre esa magnitud.
+
+
+fn normalize(vector: &[f64; 3]) -> [f64; 3] {
+    let a = magnitude(&vector);
+    let mut nvector = [0.0, 0.0, 0.0];
+    nvector[0] = &vector[0]/a;
+    nvector[1] = &vector[1]/a;
+    nvector[2] = &vector[2]/a;
+
+    return nvector;
+}
+
+// Usa `main` para comprobar lo que has hecho.
+
+fn main() {
+    println!("Magnitud de un vector unitario: {}", magnitude(&[0.0, 1.0, 0.0]));
+
+    let mut v = [1.0, 2.0, 9.0];
+    println!("Magnitud de {v:?}: {}", magnitude(&v));
+    normalize(&mut v);
+    println!("Magnitud de {v:?} después de la normalización: {}", magnitude(&v));
+}
+#+end_src
+
+#+RESULTS:
+: Magnitud de un vector unitario: 1
+: Magnitud de [1.0, 2.0, 9.0]: 9.273618495495704
+: Magnitud de [1.0, 2.0, 9.0] después de la normalización: 9.273618495495704
+
+**** Respuesta del curso
+#+begin_src rust
+/// Calcula la magnitud del vector dado.
+fn magnitude(vector: &[f64; 3]) -> f64 {
+    let mut mag_squared = 0.0;
+    for coord in vector {
+        mag_squared += coord * coord;
+    }
+    mag_squared.sqrt()
+}
+
+/// Cambia la magnitud del vector a 1.0 sin cambiar su dirección.
+fn normalize(vector: &mut [f64; 3]) {
+    let mag = magnitude(vector);
+    vector[0] /= mag;
+    vector[1] /= mag;
+    vector[2] /= mag;
+}
+
+fn main() {
+    println!("Magnitud de un vector unitario: {}", magnitude(&[0.0, 1.0, 0.0]));
+
+    let mut v = [1.0, 2.0, 9.0];
+    println!("Magnitud de {v:?}: {}", magnitude(&v));
+    normalize(&mut v);
+    println!("Magnitud de {v:?} después de la normalización: {}", magnitude(&v));
+}
+#+end_src
+****
+
+** Tipos definidos por usuario
+*** Named Structs
+As C and C++ Rust can support for custom structs:
+#+begin_src rust 
+struct Person {
+    name: String,
+    age: u8,
+}
+
+fn describe(person: &Person) {
+    println!("{} is {} years old", person.name, person.age);
+}
+
+fn main() {
+    let mut peter = Person {
+        name: String::from("Peter"),
+        age: 27,
+    };
+    describe(&peter);
+    
+    peter.age = 28;
+    describe(&peter);
+    
+    let name = String::from("Avery");
+    let age = 30;
+    let avery = Person { name, age };
+    describe(&avery);
+}
+#+end_src
+
+#+RESULTS:
+: Peter is 27 years old
+: Peter is 28 years old
+: Avery is 30 years old
+
+- Existen diferentes tips de /structs/
+  - Zero-size struct (ejemplo: ~struct foo~) podría ser usado cuando se implementa un /trait/ en algún tipo pero no se tiene ninguna data que se desee guardar como valor.
+
+*** Tuple Struct
+ Si el nombre de los campos no es importante, se puede usar un /struct/ de tupla.
+ #+begin_src rust
+struct Point(i32, i32);
+
+fn main(){
+    let p = Point(17,23);
+    println!("({}, {})", p.0, p.1);
+}
+ #+end_src
+
+ #+RESULTS:
+ : (17, 23)
+
+ #+begin_src rust
+struct PoundsOfForce(i32, i32);
+struct Newtons(f64);
+
+fn compute_thruster_force() -> PoundsOfForce {
+    todo!("Ask a rocket scientist at NASA")
+}
+
+fn set_thruster_force(force: Newtons) {
+    // ...
+}
+
+fn main() {
+    let force = compute_thruster_force();
+    set_thruster_force(force);
+}
+ #+end_src
+
+ #+RESULTS:
+ : error: Could not compile `cargoI5FA5B`.
+ 
+*** Enums
+La palabra clave ~enum~ permite la creación del tipo, con algunas variantes:
+#+begin_src rust
+#[derive(Debug)]
+enum Direction {
+    Left,
+    Right,
+}
+
+#[derive(Debug)]
+enum PlayerMove {
+    Pass, // Simple Variant
+    Run(Direction), // Tuple variant
+    Teleport { x: u32, y: u32 } // Struct variante
+}
+
+fn main() {
+    let dir = Direction::Left;
+    let player_move: PlayerMove = PlayerMove::Run(dir);
+    println!("On this turn: {player_move:?}");
+}
+#+end_src
+
+#+RESULTS:
+: On this turn: Run(Left)
+
+*** Type Aliases
+A type alias crea un nombre para otro tipo. Ambos tipos pueden usarse indistintivamente:
+#+begin_src rust
+enum CarryableConcreteItem {
+    Left,
+    Right,
+}
+
+type Item = CarryableConcreteItem;
+
+// Aliases are more useful with ling, complex types:
+use std::cell::RefCell;
+use std::sync::{Arc, RwLock};
+type PlayerInventory = RwLock<Vec<Arc<RefCell<Item>>>>;
+#+end_src
+
+#+RESULTS:
+
+*** Const
+ - Constantes son evaluadas en tiempo de compilación y sus valores son /inlined/ independiente como sean usadas:
+ - Funciones /const/ pueden ser llamadas en tiempo de ejecución.
+ 
+ #+begin_src rust
+const DIGEST_SIZE: usize = 3;
+const FILL_VALUE: u8 = calculate_fill_value();
+
+const fn calculate_fill_value() -> u8 {
+    if DIGEST_SIZE < 10 { 42 } else { 13 }
+}
+
+fn compute_digest(text: &str) -> [u8; DIGEST_SIZE] {
+    let mut digest = [FILL_VALUE; DIGEST_SIZE];
+    for (idx, &b) in text.as_bytes().iter().enumerate() {
+        digest[idx % DIGEST_SIZE] = digest[idx % DIGEST_SIZE].wrapping_add(b);
+    }
+    digest
+}
+
+fn main() {
+    let digest = compute_digest("Hello");
+    println!("digest: {digest:?}");
+}
+ #+end_src
+
+ #+RESULTS:
+ : digest: [222, 254, 150]
+ 
+*** static
+Variables /static/ vivirán durante toda la ejecución del programa, y no se moverán:
+#+begin_src rust
+static BANNER: &str = "Welcome to RustOS 3.14";
+
+fn main() {
+    println!("{BANNER}");
+}
+#+end_src
+
+#+RESULTS:
+: Welcome to RustOS 3.14
+
+*** Ejercicio: Eventos de elevador
+Crearemos una estructura de datos que represente eventos de un sistemas de control de un ascensor. Depende de ti definir los tipos y funciones a construir varios eventos. Usa ~#[derive(Debug)}]~ para permitir los tipos sean formateados con ~{:?}~. Este ejercicio, solo requiere crear y poblar la estructura de datos, por lo que ~main~ correrá sin ningún error. La siguiente parte del curso cubrirá obtener datos de estas estructuras.
+#+begin_src rust
+#![allow(dead_code)]
+
+#[derive(Debug)]
+/// An event in the elevator system that the controller must react to.
+enum Event {
+    CarDoorOpened,
+    CarDoorClosed,
+    CarArrived(Floor),
+    ButtonPressed(Button),
+}
+
+/// A direction of travel.
+#[derive(Debug)]
+enum Direction {
+    Up,
+    Down,
+}
+
+type Floor = i32;
+
+#[derive(Debug)]
+enum Button {
+    LobbyCall(Direction, Floor),
+    CarFloor(Floor)
+}
+
+/// The car has arrived on the given floor.
+fn car_arrived(floor: i32) -> Event {
+    Event::CarArrived(floor)
+}
+
+/// The car doors have opened.
+fn car_door_opened() -> Event {
+    Event::CarDoorOpened
+}
+
+/// The car doors have closed.
+fn car_door_closed() -> Event {
+    Event::CarDoorClosed
+}
+
+/// A directional button was pressed in an elevator lobby on the given floor.
+fn lobby_call_button_pressed(floor: i32, dir: Direction) -> Event {
+    Event::ButtonPressed(Button::LobbyCall(dir, floor))
+}
+
+/// A floor button was pressed in the elevator car.
+fn car_floor_button_pressed(floor: i32) -> Event {
+    Event::ButtonPressed(Button::CarFloor(floor))
+}
+
+fn main() {
+    println!(
+        "A ground floor passenger has pressed the up button: {:?}",
+        lobby_call_button_pressed(0, Direction::Up)
+    );
+    println!("The car has arrived on the ground floor: {:?}", car_arrived(0));
+    println!("The car door opened: {:?}", car_door_opened());
+    println!(
+        "A passenger has pressed the 3rd floor button: {:?}",
+        car_floor_button_pressed(3)
+    );
+    println!("The car door closed: {:?}", car_door_closed());
+    println!("The car has arrived on the 3rd floor: {:?}", car_arrived(3));
+}
+#+end_src
+
+#+RESULTS:
+: A ground floor passenger has pressed the up button: ButtonPressed(LobbyCall(Up, 0))
+: The car has arrived on the ground floor: CarArrived(0)
+: The car door opened: CarDoorOpened
+: A passenger has pressed the 3rd floor button: ButtonPressed(CarFloor(3))
+: The car door closed: CarDoorClosed
+: The car has arrived on the 3rd floor: CarArrived(3)
