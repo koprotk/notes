@@ -1,0 +1,21 @@
+#+TITLE: An Introduction to Programming in Emacs Lisp notes
+#+AUTHOR: Daniel Muñoz
+#+DESCRIPTION: Apuntes del curso Introducción a Emacs lisp (link abajo)
+
+* Apuntes del curso: Introducción a Emacs Lisp, Intro
+** [[info:eintr#Top][Emacs Lisp Introductory course]]
+** On Emacs evrything is a list and every list is delimited by parenthesis, every element inside the list is separated by SPC or jump line.
+** Every list can be started by ' single quote (what's mean this I don't know yet 🫠)
+** Every element inside a list is called /atom/, and a empty list can be called "atom" too (because is indivisible).
+** When a /atom/ is printed is called *symbolic expression* or /s-expression/.
+** The text between double quotes 
+
+
+
+
+* Para que el hipervínculo funcione se debe cargar la librería ~ol-info~ a cargar para cargar el curso
+# Local Variables:
+# eval: (require 'ol-info)
+# End:
+ 
+
