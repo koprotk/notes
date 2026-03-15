@@ -1,16 +1,68 @@
 #+TITLE: An Introduction to Programming in Emacs Lisp notes
 #+AUTHOR: Daniel Muñoz
 #+DESCRIPTION: Apuntes del curso Introducción a Emacs lisp (link abajo)
+#+SOURCE: [[info:eintr#Top][Emacs Lisp Introductory course]]
 
-* Apuntes del curso: Introducción a Emacs Lisp, Intro
-** [[info:eintr#Top][Emacs Lisp Introductory course]]
-** On Emacs evrything is a list and every list is delimited by parenthesis, every element inside the list is separated by SPC or jump line.
-** Every list can be started by ' single quote (what's mean this I don't know yet 🫠)
-** Every element inside a list is called /atom/, and a empty list can be called "atom" too (because is indivisible).
-** When a /atom/ is printed is called *symbolic expression* or /s-expression/.
-** The text between double quotes 
+* Lisp Processing
+** Lisp Lists: [[info:eintr#Lisp Lists][eintr#Lisp Lists]]
+*** On Emacs everything is a list and every list is delimited by parenthesis, every element inside the list is separated by SPC or jump line.
+*** Every list can be started by ' single quote. This symbol send a instruction to the program as "do nothing with that list" only print it.
+*** Every element inside a list is called /atom/, and a empty list can be called "atom" too (because is indivisible).
+*** When a /atom/ is printed is called *symbolic expression* or /s-expression/.
+*** The text between double quotes is an atom.
+** Run a program ([[info:eintr#Run a Program][eintr#Run a Program]])
+*** Every list in any lisp language is a program ready to run, or /evaluate/ in Lisp /jargon/
+*** Using and not a single quote on a list:
+*** You can evaluate any lisp expression on a org file, just to position with the cursor over the lisp expression and press: ~C-x C-e~ and the evaluation result will appears in the minibuffer.
+*** Example of executing with single quote
+#+begin_src elisp
+'(+ 2 2)
+#+end_src
 
+#+RESULTS:
+| + | 2 | 2 |
 
+*** Example of executing without single quote
+*** 
+#+begin_src elisp
+(+ 2 2)
+#+end_src
+
+#+RESULTS:
+: 4
+
+** Making errors
+*** Now we make an error to interpret this meaning 
+#+begin_src elisp
+(this is an unquoted list)
+#+end_src
+*** The output is an error, that's why is empty in the source block.
+***  ~sexp~ is an abbreviation of "symbolic expression"
+*** In this case the message error is:
+*** 
+#+begin_example
+---------- Buffer: *Backtrace* ----------
+     Debugger entered--Lisp error: (void-function this)
+       (this is an unquoted list)
+       eval((this is an unquoted list) nil)
+       elisp--eval-last-sexp(nil)
+       eval-last-sexp(nil)
+       funcall-interactively(eval-last-sexp nil)
+       call-interactively(eval-last-sexp nil nil)
+       command-execute(eval-last-sexp)
+     ---------- Buffer: *Backtrace* ----------
+#+end_example
+
+*** As we can see in the error the first line said: ~(void-function this)~ this main that the interpreter try to evaluate the symbol "this" but haven't defined yet, so is empty (void).
+
+** Symbol Names and Function Definitions
+*** In lisp a set of instruction can have a several names, but a symbol should be unique.
+*** In Emacs the name of a symbol start with the name of the package that contain it.
+** Lisp Interpreter
+*** The lisp interpreter works easily evaluating symbol by symbol in order.
+*** Complications:
+**** When a symbol is not quoted and not in parenthesis is treated as a /variable/.
+**** A /special form/ is a function that is unusual and do not work as usual manner eg: ~defun~ 
 
 
 * Para que el hipervínculo funcione se debe cargar la librería ~ol-info~ a cargar para cargar el curso
