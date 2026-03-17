@@ -1,2 +1,5 @@
 * notes
 My notes in ORG-MODE of different topics.
+
+* Informatic Technology master degree courses:
+-
