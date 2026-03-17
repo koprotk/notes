@@ -2,4 +2,4 @@
 My notes in ORG-MODE of different topics.
 
 * Informatic Technology master degree courses:
--
+- [[file:intr-intell-comp/intr-intell-comp-notes.org::*Unidad 2: Definiciones de componentes principales, Interpretación gráfica, definiciones formales y combinatoria de búsqueda, medidas de calidad.][introduction to intelligence computation]]
