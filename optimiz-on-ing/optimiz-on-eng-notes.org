@@ -1,0 +1,83 @@
+#+TITLE: Optimization on Engineering
+#+TEACHER: Mario Inostroza / Mónica Villanueva
+#+OPTIONS: toc:nil
+#+STARTUP: latexpreview
+
+* <2026-03-17 mar>
+** Introducción:
+*** Ayudante: Sebastián Aliaga ([[mailto:sebastian.aliaga.r@usach.cl][sebastian.aliaga.r@usach.cl]])
+*** Correos: [[mailto:monica.villanueva@usach.cl][monica.villanueva@usach.cl]]
+*** La primera mitad es del 17 de marzo al 5 de mayo
+*** La segunda mitad es del 12 de mayo al 14 de julio
+*** Hay un trabajo final la idea es resolverlo mediante un método clásico y un método heurístico.
+*** Para optimizar es necesario tener una función.
+*** [[https://uvirtual.usach.cl/moodle/init/][USACH Virtual]] (password: Mochila)
+*** Para resolver este curso hay que resolver ejercicios.
+*** ¿es un problema de optimización? -> es modelable? ->
+*** Siempre hay un balance entre calidad de la respuesta y tiempo. (clásico)
+*** Unidad 1: Programación no lineal, tipos de problemas
+*** Unidad 2: Metaheurística.
+*** Fechas de pruebas: primera <2026-05-05 mar>
+*** Definición de proyecto <2026-03-31 mar>
+*** Informe de avance: <2026-04-21 mar>
+*** Presentación: <2026-04-28 mar>
+** Optimizar:
+*** Busca la mejor forma de realizar una actividad (RAE)
+*** Optimizar -> /Optimus/ (latin)
+*** La optimización viene la "investigación operativa": su objetivo es determinar el mejor curso de acción de un problema de decisión con recursos limitados.
+*** Etapas:
+1. Formular el problema.
+2. Observar el sistema.
+3. Formular el modelo.
+4. Verificar el modelo. (refleja lo que deseamos)
+5. Presentar alternativas de solución (algoritmos que los resuelvan)
+6. Seleccionar la mejor.
+7. Implementar solución y evaluar. (verificar que la solución cumple las restricciones)
+8. Presentar conclusiones.
+*** Problema de la mochila:
+**** capacidad de la mochila = $M$
+**** Objetos: $n$, volumen de la mochila: $v_i$, beneficio: $b_i$
+**** Variables: $x_i = {1 si o_i \in A } and {0 if no}$
+**** Objetivo: $B_max = \sum_{i}^{n} b_i \cdot x_i$
+**** Restricción: Capacidad: $ \sum_{i}^{n}^{} v_{i}_{  }\leq M $.
+*** Pasos:
+1. Identificar las variables de decisión, ¿qué se desea encontrar?
+2. Determinar las restricciones del problema, ¿qué límita el problema?
+3. Definir la función objetivo: ¿Qué y en qué sentido se optimizará? sentido = máximo o mínimo.
+*** Modelo General de Optimización.
+**** (P) min f(x), x \in X
+**** f:  \R -> \R función objetivo.
+**** x \subset \R conjunto factible (conjunto de soluciones factibles de (P))
+**** \forall x \in X, x es solución factible de (P)
+**** solución óptima de (P) si f(y) \leq f(x) \forall x \in X
+**** F = {soluciones óptimas de (P)}
+**** V(P)
+*** Clasificación de modelos
+**** X = {x \in \R^n }
+*** Problemas diferenciales: que tiene funciones diferenciables.
+*** Problema convexa: función convexa, conjunto convexa.
+*** Problema irrestricto: X = \R
+*** Problema combinatorial: X conjunto discreto.
+*** Tareas:
+1. <2026-03-24 mar> Plantear un problema cotidiano (lenguaje natural) y formularlo matemáticamente.
+2. <2026-04-02 jue> Plantear un problema del trabajo o de investigación, y formularlo matemáticamente. 
+*** Ejemplo - Planteamiento
+**** Una empresa fábrica dos tipos de cervezas, Ale y Pilsen, para ello ocupa:
+
+|--------+------+--------+-------|
+| Bebida | Maíz | Lúpulo | Malta |
+| Ale    |    5 |      4 |    35 |
+| Pilsen |   15 |      4 |    20 |
+ 
+*** La empresa cuenta con: 480 kilos de maíz, 160 kilos de lúpulo y 1190 kilos de malta.
+*** La empresa obtiene de utilidad 13 CLP por la cerveza Ale y 23 UM por la cerveza Pilse.
+*** Pregunta: ¿Cuál es la cantidad idónea a producir de cada tipo de cerveza para que la empresa obtenga el máximo beneficio?
+*** Respuestas:
+**** Variables: Cantidad de cada cerveza: x_{}_{A} y x_{b}
+**** Restricción:
+***** maíz: 5x_{a} + 15x_{b} \leq 480
+***** lúpulo: 4x_{a} + 4x_{b} \leq 160
+***** *malta: 35x_{a} + 20x_{b} \leq 1190
+***** 0 \leq x_{a} , x_{b}
+**** Función objetivo: Z_{max} = 13x_{a} + 23x_{b}
+**** El problema es /lineal/
