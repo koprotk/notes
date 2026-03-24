@@ -76,3 +76,18 @@
 **** /Enriquecimiento de la información/ es cuando se complementan los datos con otras fuentes de información.
 **** /Análisis de sensibilidad/ es cuando se desea determinar el peso de las entradas en una red neuronal, solamente se puede hacer desde una referencia y la entrada y salida. En una red neuronal. [[https://www.scielo.cl/scielo.php?script=sci_arttext&pid=S0034-98872002000100010]]
 **** Cuando una variable es de tipo cualitativo (de cardinalidad n) es común utilizar una representación con n variables binarias "flattering".
+*** Hipótesis del aprendizaje automático
+**** Se dice que un programa computacional aprende de la experiencia \epsilon una tarea \tau, con una medida de eficiencia \rho. Si el desempeño en \tau, medido con \rho, mejora con la experiencia \epsilon.
+**** En general esas tareas serán:
+- identificación de grupos
+- clasificación.
+- determinación de funciones desconocidas (predicción).
+**** Todo está basado en: optimización, programación, estadística. (porque no es determinista, es aleatorio).
+**** Test de hipótesis de significancia.
+**** Problema sesgo vs varianza: Ejemplo en regresión lineal.
+**** Modelo No-lineal
+***** Función no lineal a estimar, se el punto (x_{0}, y_{0}) desconocido.
+***** Si realizamos un ajuste lineal y se requiere averiguar el punto desconocido, se genera error.
+***** Si ajustamos un polinomio a todos los datos, también hay error.
+***** Siempre se busca el mínimo sesgo y mínima varianza.
+***** Modelo que se ajuste demasiado a los datos de entrenamiento se llama memorizar o /overfitting/
