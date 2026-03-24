@@ -84,5 +84,6 @@
 ***** 0 \leq x_{a} , x_{b}
 **** Función objetivo: Z_{max} = 13x_{a} + 23x_{b}
 **** El problema es /lineal/
-** 
+** <2026-03-24 mar>
+*** Ejemplo 1. Se busca determinar las dimensiones de un contenedor rectangular y la cantidad Q necesaria de estos para transpourtar n volumen de V m^{3} de producto. El fondo y la tapa de cada contenedor son fabricados de un mismo material, disponiéndose de P piezas de A m^{2} cada una para la fabricación de fondos y tapas. La altura del contenedor diseñado no puede exceder H metros. El material utilizado en la fabricación de las caras laterales debe comprarse a un costo $ D por metro cuadrado y el material utilizado en las caras restantes tiene un costo de $ E por metro cuadrado. 
 * 
