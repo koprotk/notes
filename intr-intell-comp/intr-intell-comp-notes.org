@@ -1,40 +1,78 @@
-#+TITLE: Notes of the course Introduction of Intelligence Computation
+#+TITLE: Notes of the course Introduction of Computation Intelligence.
 #+TEACHERS: Max Chacón / Gonzalo Acuña
 #+OPTIONS: toc:nil
 #+STARTUP: latexpreview
+#+SOURCE: ?
 
-* <2026-03-16 Mon>
-** Introducción:
-*** El curso, junta análisis de datos con redes neuronales.
-*** El curso consta de pruebas y laboratorios.
-*** El curso posee dos partes, el primero de analysis de datos.
-*** Las pruebas son presenciales, pero todas las clases pueden ser online.
-*** Mauricio Marin es el encargado del área web., citiapps. ?
-*** Roberto Gonzalez Ibáñez, profesor de Tecnología Educativa.
-** Inicio del curso:
-*** Gonzalo Acuña es el experto en redes neuronales.
-*** El curso demanda unas bases de estadística diferencial.
-*** Hay que saber de test paramétricos y test no paramétricos, ANOVA simple.
-*** Clasificadores se revisan.
-*** Revisión de la descripción.
-*** El análisis inteligente de datos, es lo que se conocía hace un tiempo como minería de datos.
-*** Regresión, es tener valores reales y hacer una predicción a futuro de lo que tengo.
-*** La regresión supone que las condiciones no han cambiado.
-*** Tópicos: Análisis de componentes principales, reglas de asociación, análisis de agrupamiento, evaluación estadística, clasificación bayesiana, árboles de decisión, el paradigma conexionista, retro-propagación de error, redes neuronales con retroalimentación.
-*** Hay que usar multiplicadores de Lagrange. (cálculo 3)
-*** Existe una ley: "principio de parsimonia" entre dos modelos iguales, se elige el más simple (navaja de Occam).
-*** Machine Learning, esta más allá del scope del curso.
-*** Unidad 1: Definiciones iniciales, el proceso de adquisición de conocimiento (KDD), evaluación de hipótesis a partir de datos y selección de modelos, el dilema sesgo-varianza, navaja de Occam.
-*** Unidad 2: Definiciones de componentes principales, Interpretación gráfica, definiciones formales y combinatoria de búsqueda, medidas de calidad.
-*** unidad 4: Medidas de similaridad, métodos jerárquicos, K-medias, K-medias adaptativo, Medidas de calidad.
-*** Unidad 5: Validación cruzada, análisis ROC, análisis de concordancia.
-*** Unidad 6: Discrimincación Bayesiana, probabilidades condicionales, bayes e hipótesis MAP, Naive bayes, Evaluación de la clasificación.
-*** Unidad 7: Introducción, definiciones, cálculo de entropía y ganancia de información, poda de árboles de decisión, transformando árboles en reglas.
-*** notas: cada prueba son 30%P1 y 30%P2 y 40% los laboratorios.
-*** Bibliografía:
+* Clases
+** <2026-03-16 Mon>
+*** Introducción:
+**** El curso, junta análisis de datos con redes neuronales.
+**** El curso consta de pruebas y laboratorios.
+**** El curso posee dos partes, el primero de analysis de datos.
+**** Las pruebas son presenciales, pero todas las clases pueden ser online.
+**** Mauricio Marin es el encargado del área web., citiapps. ?
+**** Roberto Gonzalez Ibáñez, profesor de Tecnología Educativa.
+*** Inicio del curso:
+**** Gonzalo Acuña es el experto en redes neuronales.
+**** El curso demanda unas bases de estadística diferencial.
+**** Hay que saber de test paramétricos y test no paramétricos, ANOVA simple.
+**** Clasificadores se revisan.
+**** Revisión de la descripción.
+**** El análisis inteligente de datos, es lo que se conocía hace un tiempo como minería de datos.
+**** Regresión, es tener valores reales y hacer una predicción a futuro de lo que tengo.
+**** La regresión supone que las condiciones no han cambiado.
+**** Tópicos: Análisis de componentes principales, reglas de asociación, análisis de agrupamiento, evaluación estadística, clasificación bayesiana, árboles de decisión, el paradigma conexionista, retro-propagación de error, redes neuronales con retroalimentación.
+**** Hay que usar multiplicadores de Lagrange. (cálculo 3)
+**** Existe una ley: "principio de parsimonia" entre dos modelos iguales, se elige el más simple (navaja de Occam).
+**** Machine Learning, esta más allá del scope del curso.
+**** Unidad 1: Definiciones iniciales, el proceso de adquisición de conocimiento (KDD), evaluación de hipótesis a partir de datos y selección de modelos, el dilema sesgo-varianza, navaja de Occam.
+**** Unidad 2: Definiciones de componentes principales, Interpretación gráfica, definiciones formales y combinatoria de búsqueda, medidas de calidad.
+**** unidad 4: Medidas de similaridad, métodos jerárquicos, K-medias, K-medias adaptativo, Medidas de calidad.
+**** Unidad 5: Validación cruzada, análisis ROC, análisis de concordancia.
+**** Unidad 6: Discrimincación Bayesiana, probabilidades condicionales, bayes e hipótesis MAP, Naive bayes, Evaluación de la clasificación.
+**** Unidad 7: Introducción, definiciones, cálculo de entropía y ganancia de información, poda de árboles de decisión, transformando árboles en reglas.
+**** notas: cada prueba son 30%P1 y 30%P2 y 40% los laboratorios.
+**** Bibliografía:
 - T. Hastie, R. Tibshirani and J. Friedman. The Elements of Statistical Learning: Data Mining, Inference, and Prediction, Springer, 2ª Ed. 2011.
 - Hernandez, Ramirez y Ferri, Introducción a la Minería de datos, Prentoce Hall, 2004.
 - S. Haykin, Neural Networks and Learning Machines, 3d Ed., Prentice Hall, 2008.
 - C. Bishop, Pattern Recognition and Machine Learning, Springer, 2006
 - J. Suykens, J.L. Vandewalle, B. de Moor, Artificial neural networks for modelling and control of non-linear systems, Kluwer, 2010.
-***
+** <2026-03-23 Mon>
+*** Introducción al curso
+**** No hay definición de inteligencia.
+**** La regresión es un modelo de aprendizaje.
+**** Toda la estadística descriptiva no es aprendizaje.
+**** Datos: hechos o medidas que describen características de objetos, eventos o personas, es la materia prima de la cual se obtendrá la información.
+**** Información: Datos procesados y presentados en forma adecuada, de interés para un observador en un tiempo determinado.
+**** Conocimiento: Información procesada para emitir juicios que llevan a conclusiones.
+**** Meta conocimiento: Reglas que permiten obtener conocimiento. Ejemplo: métodos que nos permiten obtener conocimiento a partir de bbdd.
+**** Datos > Información > Conocimiento > Meta conocimiento.
+**** Obtención de conocimiento de bases de datos, Knowledge Discovery in Database (KDD).
+**** Minería de datos: Proceso no trivial de identificación válido, novedoso, potencialmente útil, y esencialmente entendible de obtención de patrones de los datos.
+**** Paradigma conexionista: Linea de tiempo:
+- 1940 McCulloh Pitts: Un par de neuronas conectadas
+- Test Touring 1950: Prueba de inteligencia
+- Regla Delta (Widrow y Hoff) 1960: Capas de neuronas: entrada, intermedia y salida "Perceptrón"
+- Retropropagación del error (Rumelhart, Hinton y Williams) 1986: Determino el error.
+- Redes Profundas (Hinton, LeCun, Bengio) 2010.
+**** Tipos de inteligencia: débil (tarea específica) y fuerte (generalizable) = AGI.
+*** Modelo del sistema de información Operacional.
+**** Un sistema de información (SI) es una representación de datos generados de la medida de algún fenómeno físico como imagen, voz, texto, proceso industrial, etc.
+**** Un /SI/ está compuesto de 4-tupla como: SI=<U,Q,V,f> : Universo de casos, Q, características de los sujetos o casos, V, las dimensiones, f, función.
+**** U universo cerrado: un conjunto finito, no vacío de n objetos: {x_{1} , x_{2} , ... x_{n}}
+**** Q: un conjunto finito, no vacío, de p atributos {q_{1}, q_{2}, ...q_{p}}
+**** V = \cup_{q \in Q}(V_{q}) donde V_{q} es un dominio (valor) de los atributos q.
+**** f: U \times Q \rightarrow V es una función de la decisión llamada función de información, tal que f(x,q) \in Vq para cualquier q \in Q, x \in U.
+**** Un par(q,v) para q \in Q, v \in Vq es llamado descriptor en un sistema de información SI.
+**** Ej. Descriptor de automóviles.
+**** Para seleccionar los elementos, deben ser representativos del universo.
+**** Los atributos deben ser seleccionados según el problema.
+**** En general este sistema se denomina Sistema de Información Operacional o Base de Datos Operacional, pues está destinado a la realización de consultas (tipo SQL) que tienen que ver con la operación normal del proceso...
+*** Estructura del Proceso de obtención del conocimiento
+**** La estructura general de proceso de obtención de conocimiento se puede resumir en una etapa de pre-procesamiento una minería de datos y una etapa de visualización o generación de informes: Pre-procesamiento \rightarrow Minería de datos \rightarrow visualización.
+**** BBDD \rightarrow pre-proc \rightarrow data warehouse \rightarrow minería de datos \rightarrow visualización.
+**** /Enriquecimiento de la información/ es cuando se complementan los datos con otras fuentes de información.
+**** /Análisis de sensibilidad/ es cuando se desea determinar el peso de las entradas en una red neuronal, solamente se puede hacer desde una referencia y la entrada y salida. En una red neuronal. [[https://www.scielo.cl/scielo.php?script=sci_arttext&pid=S0034-98872002000100010]]
+**** Cuando una variable es de tipo cualitativo (de cardinalidad n) es común utilizar una representación con n variables binarias "flattering".
