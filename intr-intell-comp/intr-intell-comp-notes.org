@@ -91,3 +91,37 @@
 ***** Si ajustamos un polinomio a todos los datos, también hay error.
 ***** Siempre se busca el mínimo sesgo y mínima varianza.
 ***** Modelo que se ajuste demasiado a los datos de entrenamiento se llama memorizar o /overfitting/
+** <2026-03-30 Mon>
+*** Ordenar es optimizar.
+*** La evaluación del fenómeno siempre es estadística, porque los fenómenos son aleatorios, no deterministas.
+*** Componente estocásticas o que tienen una distribución de probabilidad.
+*** La experiencia \epsilon son los datos (la historia)
+*** Las tareas que se puede realizar son:
+- identificación de grupos (clusters).
+- clasificación.
+- determinación de funciones desconocidas (predicción).
+*** Los datos muestran errores de sesgo y varianza.
+*** La validación y entrenamiento 50:50
+*** Validación cruzada: se divide la muestra en K partes y se valida cada una con la parte que se dejó fuera. En la validación cruzada se obtienen K modelos, el que se escoge es el modelo con menor error de los conjuntos, pero el error informado es el error promedio de todos los modelos.
+*** Lo habitual es usar n/k > 30
+*** Bootstrap: Se toma x datos, se entrena y se vuelven los datos al set, se vuelve a entrenar, se realiza esto n veces, después de n veces los datos estadísticos que se obtienen se parece mucho más a la población que la muestra.
+*** la contraseña es "OccamIC26" de la página
+*** El modelo más simple es una constante > una recta > parábola cuando se habla de polinomios.
+*** La parsimonia (simpleza) se mide estadísticamente, para ello se realiza un test de hipótesis sobre el error de los datos, un p-value. Mientras más pequeño el valor p del error entre dos modelos, ese es el más parsimonioso. Confianza estadística del modelo.
+*** Proceso de regularización.
+**** Nueva función de error: \epsilon = (error de los datos) + \lambda(complejidad del modelo).
+*** Longitud de Descripción de mínimos.
+**** Basada en la complejidad estadística de kolmogorov.
+*** Data Warehouse o base de datos analíticas.
+**** BD Operacionales \rightarrow Data Warehouse \rightarrow Data Marts
+**** Uno de los arreglos más usados de DW son los arreglos multidimensionales (hipercubo)
+**** En un hipercubo se pueden hacer cortes, fecha (siempre) y por ejemplo: lugar.
+*** Analisis de componentes Principales
+**** La idea es hacer disminución de dimensionalidad.
+**** Se realiza una combinación de las variables originales, y permiten reducir la dimnesionalidad del problema.
+**** La idea es tener el menor número de dimensiones que tenga la mayor varianza.
+**** las dimensionalidades deben ser ortogonales.
+**** Las dimensiones tendrá transformaciones ortonormales.
+**** Se toma una matriz X de datos con p columnas (componentes de cada caso) y n filas (número de casos).
+**** Se requiere disminuir la dimensión p del vector x_{i} que representa cada caso a una dimensión q, con q < p y perder la mínima cantidad de información.
+**** /Lagrangiano aumentado/ ?
