@@ -84,5 +84,25 @@
 ***** 0 \leq x_{a} , x_{b}
 **** Función objetivo: Z_{max} = 13x_{a} + 23x_{b}
 **** El problema es /lineal/
-** 
-* 
+** <2026-03-24 mar>
+*** Ejemplo 1. Se busca determinar las dimensiones de un contenedor rectangular y la cantidad Q necesaria de estos para transportar un volumen de V m^{3} de producto. El fondo y la tapa de cada contenedor son fabricados de un mismo material, disponiéndose de P piezas de A m^{2} cada una para la fabricación de fondos y tapas. La altura del contenedor diseñado no puede exceder H metros. El material utilizado en la fabricación de las caras laterales debe comprarse a un costo $ D por metro cuadrado y el material utilizado en las caras restantes tiene un costo de $ E por metro cuadrado.
+**** FO: Minimizar Z = [(2xh + 2yh)D + (2xy)E]Q
+**** Restricciones:
+- Q2xy \le P \times A
+- xy \le A 
+- V \le Qxyh
+- x,y,h > 0
+- Q \in Z+
+- h \le H
+**** Variables de decisión:
+- x = largo de la base del contenedor (m)
+- y = ancho de la base del contenedor (m)
+- h = altura del contenedor (m)
+- Q = número de contenedores necesarios
+*** Ejemplo 2. Se cuenta con un conjunto de n trabajadores y una cantidad igual de tareas. Cualquier de los n trabajadores puede realizar cualquiera de las n tareas, incurriendo en un costo c que puede variar dependiendo de las asignaciones trabajador-tarea. Se requiere realizar todas las tareas y exactamente una tarea a cada trabajador, de tal manera que se minimice el costo total de realizar las tareas.
+**** Workers i =  {i_{1}, i_{2}, i_{3}, ... i_{n}}
+**** Tareas  j = {j_{1}, j_{2}, j_{3}_{} ... j_{n}}
+**** Z = \sum \sum C_{ij} X_{ij} X -> es binario tomo o no tomo el par trabajador - tarea.
+**** Variable de decisión: x_{ij}
+**** Restricciones:
+*****  \sum_{j=1} 
