@@ -125,3 +125,11 @@
 **** Se toma una matriz X de datos con p columnas (componentes de cada caso) y n filas (número de casos).
 **** Se requiere disminuir la dimensión p del vector x_{i} que representa cada caso a una dimensión q, con q < p y perder la mínima cantidad de información.
 **** /Lagrangiano aumentado/ ?
+** <2026-04-06 Mon>
+*** Si la geometría de los datos es esférica entonces no se puede hacer una reducción de dimensionalidad.
+*** Si la varianza está cayendo, entonces se puede hacer componentes principales.
+*** Lo importante es medir la varianza ordenada de los ejes.
+*** "cosenos directores" son los que cambian los angulos entre los ejes.
+*** Cálculo:
+**** Se tiene una matriz X de datos con p columnas (componentes en este caso) y n filas (número de casos)
+**** Los vectores pripios representan el peso de cada dimensión, se suman y se obtiene una componente.
