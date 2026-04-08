@@ -1,0 +1,33 @@
+#+TITLE: Tarea 2. Describir y modelar un problema laboral
+#+AUTHOR: Daniel Muñoz
+#+DATE: <2026-04-02 Thu>
+#+EMAIL: daniel.munoz.m@usach.cl
+#+OPTIONS: toc:nil
+#+BIBLIOGRAPHY: ../bibliography.bib
+#+CITE_EXPORT: biblatex
+
+* Descripción del Problema (El Sistema) 
+Se tiene un conjunto de $n$ pruebas automatizadas. Cada prueba $i$ está compuesta por una serie de métodos. Algunos de estos métodos son exclusivos de la prueba, mientras que otros son comunes (reutilizados en múltiples pruebas). Contamos con un "presupuesto" limitado de tiempo de desarrollo (HH) para realizar mejoras en el código. El objetivo es decidir qué métodos optimizar y en qué medida, para que el tiempo total de ejecución de la suite de pruebas sea el mínimo posible. La ejecución de las pruebas es en paralelo.
+
+* Modelamiento matemático
+** Variables de decisión
+- $x_{j}$: Tiempo de reducción (ahorro) que se logrará en el método $j$ tras ser optimizado (refactorización). Donde $j$ representa tanto a los métodos comunes como a los exclusivos.
+- $T_{max}$: Variable que representa la duración de la prueba más larga tras la optimización (el valor que queremos optimizar)
+** Función Objetivo
+- Minimizar $Z = T_{max}$ Esta función busca reducir el tiempo de la prueba que actua como cuello de botella en la ejecución paralela.
+** Restricciones
+*** g(x) \le 0
+- *Cota de tiempo máximo*: El tiempo de cada prueba i individual debe ser menor o igual al tiempo máximo $T_{max}$.
+  \begin{equation}
+  T_{i}^{inicial} - \sum_{j}(A_{i,j} \cdot x_j) \le T_{max} \forall i = 1,...,n
+  \end{equation}
+  Donde $A_{i,j} = 1$ si la prueba $i$ utiliza $j$ y $0$ si no.
+- *Presupuesto de desarrollo*: El esfuerzo total de optimización no debe exceder las HH disponibles ($E_{max}$).
+  \begin{equation}
+  \sum_{j}(c_{j} \cdot x_{j}) \le E_{max}
+  \end{equation}
+  Donde $c_{j}$ es el costo por unidad de tiempo ahorrado en el método $j$.
+- *Límite físico*: El ahorro $x_{j}$ no puede superar el tiempo actual del método o un límite técnico mínimo.
+
+\nocite{*}
+#+PRINT_BIBLIOGRAPHY: 

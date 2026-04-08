@@ -1,0 +1,28 @@
+#+TITLE: Tarea 1. Describir un problema cotidiano
+#+AUTHOR: Daniel Muñoz
+#+DATE: <2026-03-24 mar>
+#+EMAIL: daniel.munoz.m@usach.cl
+#+OPTIONS: toc:nil
+#+BIBLIOGRAPHY: ../bibliography.bib
+#+CITE_EXPORT: biblatex
+
+* Descripción del Problema (El Sistema) 
+Actualmente, cuento con una serie de productos alimenticios en mi cocina (inventario inicial) y deseo planificar mi alimentación para los próximos 7 días. El desafío es diseñar un menú que cumpla con las necesidades energéticas diarias, pero haciendo un uso eficiente de lo que ya tengo para evitar gastos innecesarios. 
+
+* Alternativas de Decisión (¿Qué se desea encontrar?)
+Las decisiones son:
+- Qué cantidad de cada alimento disponible en la cocina debo consumir cada día.
+- Qué productos específicos y en qué cantidad necesito comprar obligatoriamente para completar el menú de la semana.
+
+* Restricciones (¿Qué limita la acción?)
+Para que mi plan sea factible, debe cumplir con lo siguiente:
+- Balance Energético: La suma de los alimentos consumidos cada día debe proporcionarme un objetivo de 2000 calorías (admitiendo un pequeño rango de flexibilidad para asegurar que el modelo encuentre solución).
+- Disponibilidad de Recursos: No puedo consumir más de lo que ya tengo en la despensa, a menos que decida comprar más.
+- Capacidad de Compra: No puedo comprar cantidades negativas de comida (restricción de no negatividad).
+- Variedad Requerida (Opcional): Para no aburrirme, puedo establecer que no comeré el mismo producto más de tres veces por semana.
+
+* Criterio Objetivo (¿Qué se optimizará?)
+El objetivo principal es la /Minimización/ del costo total de las compras. El modelo es considerado "óptimo" si logra satisfacer 2000 calorías diarias utilizando primero los recursos que ya poseo y así minimizar los gastos en alimentación esta semana.
+
+\nocite{*}
+#+PRINT_BIBLIOGRAPHY: 
