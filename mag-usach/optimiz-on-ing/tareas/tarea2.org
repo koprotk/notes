@@ -3,7 +3,7 @@
 #+DATE: <2026-04-02 Thu>
 #+EMAIL: daniel.munoz.m@usach.cl
 #+OPTIONS: toc:nil
-#+BIBLIOGRAPHY: ../bibliography.bib
+#+BIBLIOGRAPHY: bibliography.bib
 #+CITE_EXPORT: biblatex
 
 * Descripción del Problema (El Sistema) 
