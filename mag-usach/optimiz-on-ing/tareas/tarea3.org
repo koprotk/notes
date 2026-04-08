@@ -1,0 +1,29 @@
+#+TITLE: Tarea 3. Resolver un problema dado
+#+AUTHOR: Daniel Muñoz
+#+DATE: <2026-04-08 Wed>
+#+EMAIL: daniel.munoz.m@usach.cl
+#+OPTIONS: toc:nil
+#+BIBLIOGRAPHY: bibliography.bib
+#+CITE_EXPORT: biblatex
+
+* Resolver el siguiente problema dado (13.):
+Para minimizar la función:
+\begin{equation}
+f(x, y) = x^{3} + 3x^{2} - 6xy(x - y)
+\end{equation}
+
+se piensa que (0, 1) y (1,0) son soluciones óptimas. ¿Qué opina usted? No resuelva el problema. Justifique.
+
+** Respuesta:
+No, (0, 1) y (1, 0) no son soluciones óptimas globales.
+
+*** Justificación:
+
+El término $x^{3}$ con exponente impar es dominante cuando $x \to -\infty$. Al hacer $x$ suficientemente negativo, este término negativo crece en magnitud y domina sobre los términos positivos $3x^{2}$ y $-6xy(x-y)$. 
+
+Simultáneamente, al hacer $y$ suficientemente positivo, el término $-6xy(x-y)$ se vuelve fuertemente negativo, amplificando el descenso de la función.
+
+Por lo tanto, la función no tiene un mínimo global, pues tiende a $-\infty$ cuando $x \to -\infty$ e $y \to +\infty$. Esto descarta que (0, 1) y (1, 0) sean óptimos globales.
+
+\nocite{*}
+#+PRINT_BIBLIOGRAPHY:
